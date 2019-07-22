@@ -29,32 +29,27 @@ RUN chmod 755 /var/log/1c
 COPY logcfg.xml /opt/1C/v8.3/x86_64/conf/
 COPY srv1cv83 /etc/sysconfig/
 
-
-#RUN useradd onec
-#RUN export PATH=/opt/1C/v8.3/x86_64:$PATH
 ENV PATH="/opt/1C/v8.3/x86_64:${PATH}"
 
-#RUN chown usr1cv8 /opt/1C
-#RUN chown usr1cv8 /etc/init.d
-#RUN chmod -R 777 /opt/1C
-#RUN chmod -R 777 /etc/init.d
 
 RUN echo 'root' | passwd root --stdin
-
-#USER usr1cv8
-#CMD ["/etc/init.d/srv1cv83 start"]
 
 COPY docker-entrypoint.sh /
 
 VOLUME /home/usr1cv8
 VOLUME /var/log/1C
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+#ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 1545 1540 1541 1560-1591
 
-CMD [ "/bin/sh", "/opt/1C/v8.3/x86_64/ragent"]
-
-#ENTRYPOINT ["/bin/bash"]
 #ENTRYPOINT /opt/1C/v8.3/x86_64/ragent -daemon -port 2540 -regport 2541 -range 2560:2591
 #ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent /daemon /port 2540 /regport 2541 /range 2560:2591"]
+
+RUN chown -R usr1cv8:grp1cv8 /opt/1C
+RUN chmod -R 777 /opt/1C
+
+USER usr1cv8
+
+#CMD /opt/1C/v8.3/x86_64/ragent
+ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent"]
