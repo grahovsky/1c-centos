@@ -1,5 +1,5 @@
 #!/bin/sh
-docker run --name onec-centos7 \
+docker run --name onec \
   -it \
   --detach \
   --net my_app_net \
@@ -9,7 +9,7 @@ docker run --name onec-centos7 \
   --privileged \
   --volume 1c-server-home:/home/usr1cv8 \
   --volume 1c-server-logs:/var/log/1C \
-  grahovsky/onec-centos7
+  grahovsky/onec
 
 #--net host \
 #--net my_app_net \

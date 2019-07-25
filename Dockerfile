@@ -12,6 +12,9 @@ RUN yum -y install epel-release; yum clean all
 RUN yum -y install curl cabextract xorg-x11-font-utils fontconfig; yum clean all
 #RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
+#ADD msttcore-fonts-installer-2.6-1.noarch.rpm /tmp/
+#RUN rpm -Uvh /tmp/*.rpm
+
 # Install ImageMagick
 RUN yum -y install ImageMagick; yum clean all
 
@@ -52,4 +55,8 @@ RUN chmod -R 777 /opt/1C
 USER usr1cv8
 
 #CMD /opt/1C/v8.3/x86_64/ragent
-ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent"]
+#ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent"]
+
+ADD onec.sh /tmp/
+ENTRYPOINT ["/bin/sh", "/tmp/onec.sh"]
+#ENTRYPOINT /bin/bash
