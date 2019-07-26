@@ -1,4 +1,7 @@
 #!/bin/sh
+docker rm -f onec 2> /dev/null
+docker volume rm  1c-server-home 1c-server-logs
+
 docker run --name onec \
   -it \
   --detach \
