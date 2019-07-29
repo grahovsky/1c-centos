@@ -34,10 +34,14 @@ COPY srv1cv83 /etc/sysconfig/
 
 ENV PATH="/opt/1C/v8.3/x86_64:${PATH}"
 
+ENV DB_SERVER_NAME="postgrespro"
+ENV DB_SERVER_PORT="5432"
+ENV DB_NAME="test1c"
+ENV INFOBASE_NAME="test1c"
 
 RUN echo 'root' | passwd root --stdin
 
-COPY docker-entrypoint.sh /
+#COPY docker-entrypoint.sh /
 
 VOLUME /home/usr1cv8
 VOLUME /var/log/1C

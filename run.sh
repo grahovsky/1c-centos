@@ -1,6 +1,6 @@
 #!/bin/sh
 docker rm -f onec 2> /dev/null
-docker volume rm  1c-server-home 1c-server-logs
+docker volume rm  1c-server-home 1c-server-logs 2> /dev/null
 
 docker run --name onec \
   -it \
