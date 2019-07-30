@@ -8,10 +8,10 @@ INFOBASE_NAME=${INFOBASE_NAME:=test1c}
 export PATH="/opt/1C/v8.3/x86_64:${PATH}"
 
 ragent -daemon
-sleep 5
+sleep 30
 
 ras cluster --daemon
-sleep 2
+sleep 10
 
 CLUSTER_ID=$(rac cluster list | awk 'NR==1{print $3}')
 
