@@ -13,6 +13,15 @@ sleep 10
 ras cluster --daemon
 sleep 5
 
+if [ -n $(rac cluster list | grep "Error")]
+then
+    echo "Error cluster. Clean and recreate"
+    rm -rf /home/usr1cv8/.1cv8/1C/1cv8
+    kill $(ps -ef | grep ragent | awk 'NR==1{print $2}') 1> /dev/null
+    ragent -daemon
+    sleep 10    
+fi
+
 CLUSTER_ID=$(rac cluster list | awk 'NR==1{print $3}')
 echo "1. $CLUSTER_ID"
 
