@@ -8,15 +8,19 @@ INFOBASE_NAME=${INFOBASE_NAME:=test1c}
 export PATH="/opt/1C/v8.3/x86_64:${PATH}"
 
 ragent -daemon
-sleep 30
-
-ras cluster --daemon
 sleep 10
 
+ras cluster --daemon
+sleep 5
+
 CLUSTER_ID=$(rac cluster list | awk 'NR==1{print $3}')
+echo "1. $CLUSTER_ID"
 
 INFOBASES=$(rac infobase --cluster=$CLUSTER_ID summary list)
+echo "2. $INFOBASES"
+
 CREATED=$(echo "$INFOBASES" | grep "$INFOBASE_NAME")
+echo "3. $CREATED"
 
 if [ -z "$INFOBASES" ] || [ -z "$CREATED" ]; then
     
