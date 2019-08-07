@@ -10,10 +10,10 @@ docker run --name onec \
   -p 1560-1591:1560-1591 \
   -p 1545:1545 \
   --privileged \
-  --volume 1c-server-home:/home/usr1cv8 \
   --volume 1c-server-logs:/var/log/1C \
   grahovsky/onec
 
+#--volume 1c-server-home:/home/usr1cv8 \
 #--net host \
 #--net my_app_net \
 #--volume /etc/localtime:/etc/localtime:ro \

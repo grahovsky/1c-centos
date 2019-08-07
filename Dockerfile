@@ -43,7 +43,7 @@ RUN echo 'root' | passwd root --stdin
 
 #COPY docker-entrypoint.sh /
 
-VOLUME /home/usr1cv8
+#VOLUME /home/usr1cv8
 VOLUME /var/log/1C
 
 #ENTRYPOINT ["/docker-entrypoint.sh"]
@@ -61,6 +61,8 @@ USER usr1cv8
 #CMD /opt/1C/v8.3/x86_64/ragent
 #ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent"]
 
-ADD onec.sh /tmp/
-ENTRYPOINT ["/bin/sh", "/tmp/onec.sh"]
+#ADD onec.sh /tmp/
+#ENTRYPOINT ["/bin/sh", "/tmp/onec.sh"]
+Add entrypoint.sh /tmp/
+ENTRYPOINT ["/bin/sh", "-x", "/tmp/entrypoint.sh"]
 #ENTRYPOINT /bin/bash
