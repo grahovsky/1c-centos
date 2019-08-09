@@ -64,5 +64,7 @@ USER usr1cv8
 #ADD onec.sh /tmp/
 #ENTRYPOINT ["/bin/sh", "/tmp/onec.sh"]
 Add entrypoint.sh /tmp/
+Add onec.sh /tmp/
+
 ENTRYPOINT ["/bin/sh", "-x", "/tmp/entrypoint.sh"]
-#ENTRYPOINT /bin/bash
+CMD ["ragent"]
