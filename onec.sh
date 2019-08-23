@@ -10,6 +10,14 @@ ras cluster --daemon
 
 CLUSTER_ID=$(rac cluster list | awk 'NR==1{print $3}')
 
+rac cluster remove --cluster=$CLUSTER_ID
+rm -rf /home/usr1cv8/.1cv8/1C/1cv8
+
+rac cluster insert --name=1c --host=$HOSTNAME --port=1541
+CLUSTER_ID=$(rac cluster list | awk 'NR==1{print $3}')
+
+sleep 5
+
 rac infobase --cluster=$CLUSTER_ID create --create-database --name=$INFOBASE_NAME \
 --dbms=PostgreSQL --db-server=$DB_SERVER_NAME --db-name=$DB_NAME \
 --locale=ru --db-user=postgres --db-pwd=postgres --license-distribution=allow
