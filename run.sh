@@ -6,9 +6,9 @@ docker run --name onec \
   -it \
   --detach \
   --net my_app_net \
-  -p 1540-1541:1540-1541 \
-  -p 1560-1591:1560-1591 \
-  -p 1545:1545 \
+  -p 31540-31541:31540-31541 \
+  -p 31560-31591:31560-31591 \
+  -p 31545:31545 \
   --privileged \
   --volume 1c-server-logs:/var/log/1C \
   grahovsky/onec

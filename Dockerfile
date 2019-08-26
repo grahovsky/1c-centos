@@ -48,13 +48,17 @@ VOLUME /var/log/1C
 
 #ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 1545 1540 1541 1560-1591
+EXPOSE 31540 31541 31545 31560-31591
 
 #ENTRYPOINT /opt/1C/v8.3/x86_64/ragent -daemon -port 2540 -regport 2541 -range 2560:2591
 #ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent /daemon /port 2540 /regport 2541 /range 2560:2591"]
 
 RUN chown -R usr1cv8:grp1cv8 /opt/1C
 RUN chmod -R 777 /opt/1C
+
+#fonts msttcore-fonts-installer-2.6-1.noarch.rpm - error
+ADD fonts/* /home/usr1cv8/.fonts/
+RUN chown -R usr1cv8:grp1cv8 /home/usr1cv8/.fonts
 
 USER usr1cv8
 
