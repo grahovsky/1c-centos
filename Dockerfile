@@ -1,6 +1,12 @@
 FROM centos:centos7
 #MAINTAINER "grahovsky" <grahovsky@gmail.com>
 
+#OKD
+ENV OKD_USER_ID 1001080000
+
+RUN groupadd -f --gid $OKD_USER_ID grp1cv8 && \
+    useradd --uid $OKD_USER_ID --gid $OKD_USER_ID --comment '1C Enterprise 8 server launcher' --no-log-init --home-dir /home/usr1cv8 usr1cv8
+
 # Perform updates
 
 RUN yum -y update; yum clean all
