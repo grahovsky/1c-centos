@@ -1,6 +1,22 @@
 FROM centos:centos7
 #MAINTAINER "grahovsky" <grahovsky@gmail.com>
 
+#Environment Variables
+ARG AGENT_PORT=1540
+ENV AGENT_PORT=$AGENT_PORT
+
+ARG MANAGER_PORT=1541
+ENV MANAGER_PORT=$MANAGER_PORT
+
+ARG RAS_PORT=1541
+ENV RAS_PORT=$RAS_PORT
+
+ARG RANGE_PORT_START=1560
+ENV RANGE_PORT_START=$RANGE_PORT_START
+
+ARG RANGE_PORT_END=1591
+ENV RANGE_PORT_END=$RANGE_PORT_END
+
 #OKD
 ENV OKD_USER_ID 1001080000
 
@@ -28,22 +44,16 @@ ADD rpm/*.rpm /tmp/
 RUN rpm -Uvh /tmp/*.rpm
 
 RUN mkdir -p /opt/1C/v8.3/x86_64/conf/
-COPY logcfg.xml /opt/1C/v8.3/x86_64/conf/
+COPY config/logcfg.xml /opt/1C/v8.3/x86_64/conf/
 RUN chown -R usr1cv8:grp1cv8 /opt/1C
 
 RUN mkdir -p /var/log/1c/dumps/
 RUN chown -R usr1cv8:grp1cv8 /var/log/1c/
 RUN chmod 755 /var/log/1c
 
-COPY logcfg.xml /opt/1C/v8.3/x86_64/conf/
-COPY srv1cv83 /etc/sysconfig/
+COPY config/srv1cv83 /etc/sysconfig/
 
 ENV PATH="/opt/1C/v8.3/x86_64:${PATH}"
-
-ENV DB_SERVER_NAME="postgrespro"
-ENV DB_SERVER_PORT="5432"
-ENV DB_NAME="test1c"
-ENV INFOBASE_NAME="test1c"
 
 RUN echo 'root' | passwd root --stdin
 
@@ -54,17 +64,19 @@ VOLUME /var/log/1C
 
 #ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 31540 31541 31545 31560-31591
+EXPOSE $AGENT_PORT $MANAGER_PORT $RASPORT $RANGE_PORT_START-$RANGE_PORT_END
 
 #ENTRYPOINT /opt/1C/v8.3/x86_64/ragent -daemon -port 2540 -regport 2541 -range 2560:2591
 #ENTRYPOINT ["/opt/1C/v8.3/x86_64/ragent /daemon /port 2540 /regport 2541 /range 2560:2591"]
 
+RUN echo "DisableUnsafeActionProtection=.*" >> /opt/1C/v8.3/x86_64/conf/conf.cfg
 RUN chown -R usr1cv8:grp1cv8 /opt/1C
 RUN chmod -R 777 /opt/1C
 
 #fonts msttcore-fonts-installer-2.6-1.noarch.rpm - error
 ADD fonts/* /home/usr1cv8/.fonts/
 RUN chown -R usr1cv8:grp1cv8 /home/usr1cv8/.fonts
+RUN fc-cache -fv
 
 USER usr1cv8
 
