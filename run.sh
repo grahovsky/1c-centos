@@ -1,8 +1,8 @@
 #!/bin/sh
-docker rm -f onec 2> /dev/null
+docker rm -f server-onec 2> /dev/null
 docker volume rm  1c-server-home 1c-server-logs 2> /dev/null
 
-docker run --name onec \
+docker run --name server-onec \
   -it \
   --detach \
   --net my_app_net \
@@ -11,7 +11,7 @@ docker run --name onec \
   -p 1545:1545 \
   --privileged \
   --volume 1c-server-logs:/var/log/1C \
-  grahovsky/onec:latest
+  grahovsky/server-onec:latest
 
 #--volume 1c-server-home:/home/usr1cv8 \
 #--net host \
