@@ -7,7 +7,7 @@ RANGE_PORT_START=${RANGE_PORT_START:=1560}
 RANGE_PORT_END=${RANGE_PORT_END:=1591}
 RAS_PORT=${RAS_PORT:=1545}
 
-DB_SERVER_NAME=${DB_SERVER_NAME:=postgrespro}
+DB_SERVER_NAME=${DB_SERVER_NAME:=postgrespro-1c}
 DB_SERVER_PORT=${DB_SERVER_PORT:=5432}
 DB_NAME=${DB_NAME:=base-1c}
 SERVER_NAME=${SERVER_NAME:=$HOSTNAME}
@@ -38,7 +38,7 @@ if [ "$1" = 'ragent' ]; then
     echo "hostname: $HOSTNAME"
     #kill $(ps -ef | grep -E 'ragent|rmngr|rphost' | awk '{print $2}')
     rm -rf /home/usr1cv8/.1cv8/1C/1cv8
-    ( sleep 30 ; createbase ) &
+    ( sleep 15 ; createbase ) &
     ragent /port $AGENT_PORT /regport $MANAGER_PORT /range $RANGE_PORT_START:$RANGE_PORT_END
 
 fi
