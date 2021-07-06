@@ -1,10 +1,10 @@
-# 1c-centos7-docker
+# server-1c Centos7
 
 ## Что это?
 
-1c-centos7-docker -- это сервер 1С:Предприятия в контейнере Docker.
+server-1c -- это сервер 1С:Предприятия в контейнере Docker.
 
-sudo sh build.sh
-sh run.sh
+./build.sh
+./run.sh
 
-docker exec -it 1c-centos7 bin\bash
+docker exec -it server-1c bin\bash
