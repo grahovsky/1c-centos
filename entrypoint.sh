@@ -33,14 +33,19 @@ createbase() {
 
 }
 
-if [ "$1" = 'ragent' ]; then
-    
-    echo "hostname: $HOSTNAME"
-    #kill $(ps -ef | grep -E 'ragent|rmngr|rphost' | awk '{print $2}')
-    rm -rf /home/usr1cv8/.1cv8/1C/1cv8
-    ( sleep 15 ; createbase ) &
-    ragent /port $AGENT_PORT /regport $MANAGER_PORT /range $RANGE_PORT_START:$RANGE_PORT_END
+if [ -n "$HOSTNAME_STATIC" ]; then
+  echo "hostname static: $HOSTNAME_STATIC"
+  sudo /usr/bin/chmod 777 /etc/hostname
+  echo $HOSTNAME_STATIC > /etc/hostname
+  HOSTNAME=$HOSTNAME_STATIC
+fi
 
+if [ "$1" = 'ragent' ]; then
+  echo "hostname: $HOSTNAME"
+  #kill $(ps -ef | grep -E 'ragent|rmngr|rphost' | awk '{print $2}')
+  rm -rf /home/usr1cv8/.1cv8/1C/1cv8
+  ( sleep 15 ; createbase ) &
+  ragent /port $AGENT_PORT /regport $MANAGER_PORT /range $RANGE_PORT_START:$RANGE_PORT_END
 fi
 
 exec "$@"
