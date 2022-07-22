@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker build --tag grahovsky/server-1c:latest \
+docker build --tag grahovsky/server-1c:8.3.18.1698 \
     --build-arg AGENT_PORT=1540 \
     --build-arg MANAGER_PORT=1541 \
     --build-arg RAS_PORT=1545 \
@@ -8,5 +8,5 @@ docker build --tag grahovsky/server-1c:latest \
     --build-arg RANGE_PORT_END=1591 \
     --build-arg ONEC_USERNAME=$ONEC_USERNAME \
     --build-arg ONEC_PASSWORD=$ONEC_PASSWORD \
-    --build-arg ONEC_VERSION='8.3.10.2699' \
+    --build-arg ONEC_VERSION='8.3.18.1698' \
     $1 -- .

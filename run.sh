@@ -10,7 +10,7 @@ docker run --name server-1c \
   -p 1560-1591:1560-1591 \
   -p 1545:1545 \
   --privileged \
-  --volume server-1c-logs:/var/log/1C \
+  --volume server-1c-logs:/var/log/1c \
   grahovsky/server-1c:latest
 
 #--volume 1c-server-home:/home/usr1cv8 \

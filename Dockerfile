@@ -1,4 +1,4 @@
-FROM alpine:latest as prepare
+FROM centos:centos7 as prepare
 
 ARG ONEC_USERNAME
 ARG ONEC_PASSWORD
@@ -7,41 +7,40 @@ ENV installer_type=server
 
 WORKDIR /tmp
 
-RUN apk --no-cache add bash curl grep
+# RUN apt-get install bash curl grep
 
-COPY ./download.sh /download.sh
-RUN chmod +x /download.sh \
-  && sync; /download.sh
+# COPY distr/download.sh /download.sh
+# RUN chmod +x /download.sh \
+#   && sync; /download.sh
+
+COPY distr/* ./
 
 RUN for file in *.tar.gz; do tar -zxf "$file"; done \
-  && rm -rf *-nls-* *-ws-* \
+  && rm -rf *-nls-* *-ws-* *-crs-* \
   && rm -rf *.tar.gz
 
-COPY distr/fonts.tar.gz fonts.tar.gz
-
-RUN tar xzf fonts.tar.gz
+# COPY distr/fonts.tar.gz fonts.tar.gz
+# RUN tar xzf fonts.tar.gz
 
 FROM centos:centos7 as base
 #MAINTAINER "grahovsky" <grahovsky@gmail.com>
 
-# locale
-ENV LANG ru_RU.utf8
-RUN localedef -f UTF-8 -i ru_RU ru_RU.UTF-8
-
 # install epel
-RUN yum -y update; yum -y install epel-release; yum clean all
-
-# install dependences
-RUN yum -y update ; \
+RUN yum -y install epel-release && \
+    # install dependences
+    yum -y update && \
     yum -y install fontconfig \
+    glibc-langpack-en \
     ImageMagick \
     xorg-x11-font-utils \
-    cabextract \
-    ;yum clean all
-    
-    # curl \
-    # sudo \ only for /etc/hostname
- 
+    cabextract && \
+    yum clean all
+
+# locale
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE=ru_RU.UTF-8
+RUN localedef -f UTF-8 -i ru_RU ru_RU.UTF-8
+
 # create user with specific id for okd
 ARG OKD_USER_ID=1001080000
 ENV OKD_USER_ID=$OKD_USER_ID
@@ -51,22 +50,22 @@ RUN groupadd -f --gid $OKD_USER_ID grp1cv8 && \
 # add rpm
 COPY --from=prepare /tmp/*.rpm /tmp/
 # install 1c
-RUN yum localinstall -y /tmp/*.rpm && yum clean all
+RUN yum localinstall -y /tmp/*.rpm && yum clean all && rm -f /tmp/*.rpm
 
 # install fonts
 #RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 COPY --from=prepare /tmp/fonts/* /home/usr1cv8/.fonts/
 
 # Add config 1c
-COPY config/logcfg.xml /opt/1C/v8.3/x86_64/conf/
+COPY config/logcfg.xml /opt/1cv8/x86_64/conf/
 COPY config/srv1cv83 /etc/sysconfig/
-RUN echo "DisableUnsafeActionProtection=.*" >> /opt/1C/v8.3/x86_64/conf/conf.cfg
+RUN echo "DisableUnsafeActionProtection=.*" >> /opt/1cv8/x86_64/conf/conf.cfg
 
 # Add path 1cv8
-ENV PATH="/opt/1C/v8.3/x86_64:${PATH}"
+ENV PATH="/opt/1cv8/x86_64/8.3.18.1698:${PATH}"
 
 # Add directory and premission
-RUN mkdir -p /opt/1C/v8.3/x86_64/conf/ && \
+RUN mkdir -p /opt/1cv8/x86_64/conf/ && \
     mkdir -p /var/log/1c/dumps/ && chown -R usr1cv8:grp1cv8 /var/log/1c/ && chmod 755 /var/log/1c && \
     chown -R usr1cv8:grp1cv8 /home/usr1cv8/.fonts && fc-cache -fv
 
@@ -96,7 +95,7 @@ ENV RANGE_PORT_END=$RANGE_PORT_END
 EXPOSE $AGENT_PORT $MANAGER_PORT $RASPORT $RANGE_PORT_START-$RANGE_PORT_END
 
 #VOLUME /home/usr1cv8
-VOLUME /var/log/1C
+VOLUME /var/log/1c
 
 COPY entrypoint.sh /tmp/
 

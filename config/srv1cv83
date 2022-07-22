@@ -20,7 +20,7 @@ SRV1CV8_PORT=2540
 #
 # default - 1541
 #
-SRV1CV8_REGPORT=2541
+SRV1CV8_REGPORT=1541
 
 # Port range for connection pool
 # example values:
@@ -29,7 +29,7 @@ SRV1CV8_REGPORT=2541
 #
 # default - 1560:1691
 #
-SRV1CV8_RANGE=2560:2591
+SRV1CV8_RANGE=1560:1591
 
 # 1C:Enterprise server configuration debug mode
 # 0 - default - off
