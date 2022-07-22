@@ -1,26 +1,14 @@
 FROM centos:centos7 as prepare
 
-ARG ONEC_USERNAME
-ARG ONEC_PASSWORD
-ARG ONEC_VERSION
 ENV installer_type=server
 
 WORKDIR /tmp
-
-# RUN apt-get install bash curl grep
-
-# COPY distr/download.sh /download.sh
-# RUN chmod +x /download.sh \
-#   && sync; /download.sh
 
 COPY distr/* ./
 
 RUN for file in *.tar.gz; do tar -zxf "$file"; done \
   && rm -rf *-nls-* *-ws-* *-crs-* \
   && rm -rf *.tar.gz
-
-# COPY distr/fonts.tar.gz fonts.tar.gz
-# RUN tar xzf fonts.tar.gz
 
 FROM centos:centos7 as base
 #MAINTAINER "grahovsky" <grahovsky@gmail.com>
@@ -82,20 +70,20 @@ ENV AGENT_PORT=$AGENT_PORT
 ARG MANAGER_PORT=1541
 ENV MANAGER_PORT=$MANAGER_PORT
 
-ARG RAS_PORT=1541
+ARG RAS_PORT=1545
 ENV RAS_PORT=$RAS_PORT
 
-ARG RANGE_PORT_START=1560
-ENV RANGE_PORT_START=$RANGE_PORT_START
+ARG RAGENT_PORT=1560
+ENV RAGENT_PORT=$RAGENT_PORT
 
-ARG RANGE_PORT_END=1591
-ENV RANGE_PORT_END=$RANGE_PORT_END
+ARG ONEC_VERSION=8.3.18.1698
+ENV ONEC_VERSION=$ONEC_VERSION
 
 # expose ports
-EXPOSE $AGENT_PORT $MANAGER_PORT $RASPORT $RANGE_PORT_START-$RANGE_PORT_END
+EXPOSE $AGENT_PORT $MANAGER_PORT $RASPORT $RAGENT_PORT
 
-#VOLUME /home/usr1cv8
-VOLUME /var/log/1c
+# set volumes
+VOLUME /home/usr1cv8/.1cv8 /var/log/1c
 
 COPY entrypoint.sh /tmp/
 
