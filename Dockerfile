@@ -30,7 +30,7 @@ ENV LANGUAGE=ru_RU.UTF-8
 RUN localedef -f UTF-8 -i ru_RU ru_RU.UTF-8
 
 # create user with specific id for okd
-ARG OKD_USER_ID=1001080000
+ARG OKD_USER_ID=1004140000
 ENV OKD_USER_ID=$OKD_USER_ID
 RUN groupadd -f --gid $OKD_USER_ID grp1cv8 && \
     useradd --uid $OKD_USER_ID --gid $OKD_USER_ID --comment '1C Enterprise 8 server launcher' --no-log-init --home-dir /home/usr1cv8 usr1cv8

@@ -6,4 +6,5 @@ docker build --tag grahovsky/server-1c:8.3.18.1698 \
     --build-arg RAS_PORT=1545 \
     --build-arg RAGENT_PORT=1560 \
     --build-arg ONEC_VERSION='8.3.18.1698' \
+    --build-arg OKD_USER_ID=1004140000 \
     $1 -- .
